@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1539159350549.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2262662473",
+    "id" : "8B6F1B7",
+    "lastKnownWriteTime" : 1539162418,
+    "last_content_update" : 1539162418671,
+    "path" : "~/Desktop/triple/triple2.r",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "41,0",
+        "scrollLine" : "22"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

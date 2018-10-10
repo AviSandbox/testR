@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1539153425323.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3201762430",
+    "id" : "15D5DCFB",
+    "lastKnownWriteTime" : 1539155851,
+    "last_content_update" : 1539155851588,
+    "path" : "~/Desktop/testR/lab2/lab2.R",
+    "project_path" : "lab2/lab2.R",
+    "properties" : {
+        "cursorPosition" : "53,0",
+        "scrollLine" : "40"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

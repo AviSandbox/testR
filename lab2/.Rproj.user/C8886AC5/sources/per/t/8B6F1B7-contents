@@ -1,0 +1,201 @@
+cleveland <- read.csv("datasets/processed.cleveland.csv",header=T)
+hungarian <- read.csv("datasets/processed.hungarian.csv",header=T)
+va <- read.csv("datasets/processed.va.csv",header=T)
+switzerland<- read.csv("datasets/processed.switzerland.csv",header=T)
+#data <- bind_rows(cleveland, hungarian, switzerland, va)
+data<-rbind(cleveland,hungarian,va,switzerland)
+data$slope<-NULL
+data$ca<-NULL
+data$thal<-NULL
+
+#find ? elements
+idx<-data =="?"
+#replace elements with NA
+is.na(data) <- idx
+
+
+for(i in 1:ncol(data)){ #for every column of our data
+  data[is.na(data[,i]), i] <- mean(as.numeric(data[,i]), na.rm =
+  TRUE) #replace every missing values with the mean of that column
+}
+data[] <- lapply(data, as.integer)
+normalize <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+
+
+datanorm <- as.data.frame(lapply(data, normalize))
+cors<-cor(datanorm)
+install.packages("corrplot")
+library(corrplot)
+corrplot(cors)
+install.packages(c('cluster','fpc','arules'))
+library(cluster)
+library(fpc)
+library(arules)
+#####checked kmean based on lab 2########
+
+
+#################################
+# recode class as a factor 
+data[1,11]<- lapply(data[1,11], factor)
+
+#####test start#####
+
+# Partition data - train 70%, test 30%
+set.seed(511)
+ind <-sample(2,nrow(data), replace = T, prob = c(0.7, 0.3))
+train <- data[ind ==1,]
+test <- data[ind ==2,]
+
+## Implenting tree model
+library(tree)
+tree_model <- tree(class ~ ., train)
+#plot(tree_model)
+#text(tree_model, pretty = 0)
+
+# Confusion matrix - test
+p2 <- predict(tree_model, test, type = 'class')
+# Confusion matrix - test data
+(tab2 <- table(predicted = p2, Actual = test$age))
+# Miss classification error
+(1 - sum(diag(tab2))/sum(tab2)) * 100
+#Accuracy
+(sum(diag(tab2))/sum(tab2)) * 100
+
+
+## cross-validation to check where to stop pruning
+cv_tree = cv.tree(tree_model, FUN = prune.misclass)
+names(cv_tree)
+plot(cv_tree$size,
+     cv_tree$dev,
+     type = 'b')
+## Pruning the tree
+pruned_model = prune.misclass(tree_model, best = 8)
+plot(pruned_model)
+text(pruned_model, pretty = 0)
+
+
+
+# Prediction
+# Confusion matrix - test
+p2 <- predict(pruned_model, test, type = 'class')
+# Confusion matrix - test data
+(tab2 <- table(predicted = p2, Actual = test$age))
+# Miss classification error
+(1 - sum(diag(tab2))/sum(tab2)) * 100
+#Accuracy
+(sum(diag(tab2))/sum(tab2)) * 100
+
+
+
+
+
+
+#####test end########
+
+
+
+
+
+
+
+
+
+
+install.packages(caTools)
+library(caTools)
+
+set.seed(12345)
+data_train <- data[1:306,]
+data_test <- data[307:920,]
+
+
+#Feature scaling
+data_train[,c(1:11)] <-scale(data_train[,c(1:11)])
+data_test[,c(1:11)] <-scale(data_test[,c(1:11)])
+
+
+# Fitting Decision Tree Classification to the Training set
+install.packages('rpart')
+library(rpart)
+classifier = rpart(formula = class ~ ., control= rpart.control(minsplit = 20, cp = 0.01, maxdepth= 30),
+                   data_train = as.matrix(data_train))
+
+# Predicting the Test set results
+y_pred = predict(classifier, newdata = test_set[-14], type = 'class')
+#C50_model<-C5.0(training_set[,-14],training_set[,-14],trials= 10)
+
+# Making the Confusion Matrix
+cm = table(test_set[, 14], y_pred)
+
+# attributes(data)
+# typeof(data)
+# data$class <- factor(data$class, levels = c("0", "1","2","3","4"),
+#                          labels = c(0,1,2,3,4))
+# 
+# data$cp <- factor(data$cp, levels = c("1","2","3","4"),
+#                   labels = c(1,2,3,4))
+# data$fbs <- factor(dataset$fbs,levels = c('0', '1'),labels = c(0, 1))
+# 
+# str(data)
+
+#install.packages("caret")
+install.packages(c("pander","doMC"))
+
+#library(caret)
+library(pander)
+library(doMC)
+registerDoMC(cores=4)
+frqtab <- function(x, caption) {
+  round(100*prop.table(table(x)), 1)
+}
+
+#frequencies for the class
+ft_orig <- frqtab(data$class)
+pander(ft_orig, style="rmarkdown", caption="class level (%)")
+
+#use accuracy as metric, set train and test data
+
+
+
+data_train <- data[1:306,]
+data_test <- data[307:920,]
+#data partition strategy, sets with similar distributions as the original data.
+
+
+ft_train <- frqtab(data_train$class)
+ft_test <- frqtab(data_test$class)
+ftcmp_df <- as.data.frame(cbind(ft_orig, ft_train, ft_test))
+colnames(ftcmp_df) <- c("Original", "Training set", "Test set")
+pander(ftcmp_df, style="rmarkdown",
+       caption="Comparison of class frequencies (in %)")
+
+#ctrl <- trainControl(method="repeatedcv", number=10, repeats=3)
+#install.packages('caret', dependencies = TRUE)
+
+# library(caret)<-does not work. Package ModelMatrix does not support Rstudio 3.5.1 version
+# set.seed(12345)
+# knnFit1 <- train(class ~ ., data1=data_train, method="knn",
+#                   trControl=ctrl, metric="Accuracy", tuneLength=20,
+#                  preProc=c("range"))
+
+
+
+
+str(data)
+
+install.packages("caret", dependencies = c("Depends", "Suggests"))
+install.packages(c("pander","doMC"))
+
+library(caret)
+library(pander)
+library(doMC)
+registerDoMC(cores=4)
+frqtab <- function(x, caption) {
+  round(100*prop.table(table(x)), 1)
+}
+ft_orig <- frqtab(data$class)
+pander(ft_orig, style="rmarkdown", caption="class level (%)")
+
+

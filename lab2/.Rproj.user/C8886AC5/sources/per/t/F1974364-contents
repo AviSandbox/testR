@@ -1,0 +1,81 @@
+install.packages(c('cluster'),'fpc','arules'))
+library(cluster)
+library(fpc)
+libary(arules)
+install.packages(c('cluster'),'fpc','arules'))
+library(cluster)
+library(fpc)
+library(arules)
+install.packages(c('cluster'),'fpc','arules'))
+install.packages(c('cluster','fpc','arules'))
+install.packages(c("cluster", "fpc", "arules"))
+library(cluster)
+library(fpc)
+library(arules)
+library(cluster)
+library(fpc)
+library(arules)
+set.seed(5)
+library(readxl)
+Cluster_data <- read_excel("~/Downloads/Cluster_data.xlsx")
+View(Cluster_data)
+x<-matrix(rnorm(300),150,2)
+View(Cluster_data)
+View(x)
+xmean<-matrix(rnorm(8),4,2)
+View(xmean)
+which<-sample(1:4, 150, replace=T)
+x<-x+xmean[which,]
+plot(x,col=which, pch=19)
+shiny::runApp('lab2')
+x.cluster<-cbind(x, which)
+while(TRUE){
+centroid<-c()
+for (g in 1:4)
+centroid <-matrix(centroid, 4,2, byrow=T)
+distance <-c()
+for (i in 1:nrow(x){
+for (j in 1:4){
+dis<-sqrt(sum((x[i,]-centroid[j,])^2))
+distance <-c(distance, dis)
+}
+})
+}
+x.cluster<-cbind(x, which)
+while(TRUE){
+centroid<-c()
+for (g in 1:4)
+centroid<-c(centroid,mean(x.cluster[x.cluster[,3]==g,l]),
+mean(x.cluster[x.cluster[,3]==g,2]))
+}
+x.cluster<-cbind(x, which)
+while(TRUE){
+centroid<-c()
+for (g in 1:4)
+centroid<-c(centroid,mean(x.cluster[x.cluster[,3]==g,1]),
+mean(x.cluster[x.cluster[,3]==g,2]))
+}
+while(TRUE){
+centroid<-c()
+for (g in 1:4)
+centroid<-c(centroid,mean(x.cluster[x.cluster[,3]==g,1]),
+mean(x.cluster[x.cluster[,3]==g,2]))
+}
+x<-matrix(rnorm(300),150,2)
+xmean<-matrix(rnorm(8),4,2)# check
+which<-sample(1:4, 150, replace=T)
+x<-x+xmean[which,]
+plot(x,col=which, pch=19)
+x.cluster<-cbind(x, which)
+while(TRUE){
+centroid<-c()
+for (g in 1:4)
+centroid<-c(centroid,mean(x.cluster[x.cluster[,3]==g,1]),
+mean(x.cluster[x.cluster[,3]==g,2]))
+}
+while(TRUE){
+centroid<-c()
+for (g in 1:4)
+centroid<-c(centroid,mean(x.cluster[x.cluster[,3]==g,1]),
+mean(x.cluster[x.cluster[,3]==g,2]))
+}
