@@ -64,6 +64,8 @@ for(i in 1:10){
   table <- table(prediction, data_all.test$Cancer)
   accuracy <-c(accuracy,(table[1,1]+table[2,2])/sum(sum(table)))
 }
+  
+
 accuracy
 accuracyaverage = mean(accuracy)
 accuracyaverage
